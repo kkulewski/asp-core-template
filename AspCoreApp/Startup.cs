@@ -1,4 +1,6 @@
 ﻿using AspCoreApp.Data;
+using AspCoreApp.Data.Repositories;
+using AspCoreApp.Data.Repositories.Abstract;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -19,9 +21,14 @@ namespace AspCoreApp
         // Add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add DbContext + pass connection string from appsettings.json
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            // Register dependencies in DI container
+            services.AddTransient<IAddressRepository, AddressRepository>();
+
+            // Add MVC stuff
             services.AddMvc();
         }
 
