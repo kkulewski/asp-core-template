@@ -7,5 +7,9 @@ namespace AspCoreApp.Data
     {
         public virtual DbSet<Person> People { get; set; }
         public virtual DbSet<Address> Addresses { get; set; }
+
+        public AppDbContext(DbContextOptions options) : base(options)
+        {
+        }
     }
 }
