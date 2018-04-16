@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AspCoreApp.Data;
+using AspCoreApp.Data.Repositories.Abstract;
 using AspCoreApp.Models;
 
 namespace AspCoreApp.Controllers
@@ -13,10 +14,12 @@ namespace AspCoreApp.Controllers
     public class AddressController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IAddressRepository _addressRepo;
 
-        public AddressController(AppDbContext context)
+        public AddressController(AppDbContext context, IAddressRepository addressRepo)
         {
             _context = context;
+            _addressRepo = addressRepo;
         }
 
         // GET: Address
