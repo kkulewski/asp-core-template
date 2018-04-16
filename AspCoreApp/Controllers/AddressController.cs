@@ -1,43 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using AspCoreApp.Data;
 using AspCoreApp.Data.Repositories.Abstract;
 using AspCoreApp.Models;
 
 namespace AspCoreApp.Controllers
 {
+    [Route("[controller]/[action]")]
     public class AddressController : Controller
     {
-        private readonly AppDbContext _context;
         private readonly IAddressRepository _addressRepo;
 
-        public AddressController(AppDbContext context, IAddressRepository addressRepo)
+        public AddressController(IAddressRepository addressRepo)
         {
-            _context = context;
             _addressRepo = addressRepo;
         }
 
         // GET: Address
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Addresses.ToListAsync());
+            var addresses = _addressRepo.GetAll();
+            return View(addresses);
         }
 
         // GET: Address/Details/5
-        public async Task<IActionResult> Details(string id)
+        public IActionResult Details(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var address = await _context.Addresses
-                .SingleOrDefaultAsync(m => m.Id == id);
+            var address = _addressRepo.GetById(id);
             if (address == null)
             {
                 return NotFound();
@@ -55,37 +48,38 @@ namespace AspCoreApp.Controllers
         // POST: Address/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Street,Number")] Address address)
+        public IActionResult Create([Bind("Id,Street,Number")] Address address)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(address);
-                await _context.SaveChangesAsync();
+                _addressRepo.Add(address);
                 return RedirectToAction(nameof(Index));
             }
+
             return View(address);
         }
 
         // GET: Address/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public IActionResult Edit(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var address = await _context.Addresses.SingleOrDefaultAsync(m => m.Id == id);
+            var address = _addressRepo.GetById(id);
             if (address == null)
             {
                 return NotFound();
             }
+
             return View(address);
         }
 
         // POST: Address/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Street,Number")] Address address)
+        public IActionResult Edit(string id, [Bind("Id,Street,Number")] Address address)
         {
             if (id != address.Id)
             {
@@ -94,37 +88,22 @@ namespace AspCoreApp.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(address);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AddressExists(address.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _addressRepo.Update(address);
                 return RedirectToAction(nameof(Index));
             }
+
             return View(address);
         }
 
         // GET: Address/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public IActionResult Delete(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var address = await _context.Addresses
-                .SingleOrDefaultAsync(m => m.Id == id);
+            var address = _addressRepo.GetById(id);
             if (address == null)
             {
                 return NotFound();
@@ -136,17 +115,10 @@ namespace AspCoreApp.Controllers
         // POST: Address/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public IActionResult DeleteConfirmed(string id)
         {
-            var address = await _context.Addresses.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Addresses.Remove(address);
-            await _context.SaveChangesAsync();
+            _addressRepo.Delete(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool AddressExists(string id)
-        {
-            return _context.Addresses.Any(e => e.Id == id);
         }
     }
 }
