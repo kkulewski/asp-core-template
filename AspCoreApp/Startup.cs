@@ -26,6 +26,7 @@ namespace AspCoreApp
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             // Register dependencies in DI container
+            services.AddSingleton<MigrationService>();
             services.AddTransient<IAddressRepository, AddressRepository>();
             services.AddTransient<IPersonRepository, PersonRepository>();
 
@@ -34,7 +35,7 @@ namespace AspCoreApp
         }
 
         // Configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, MigrationService migrations)
         {
             if (env.IsDevelopment())
             {
@@ -54,6 +55,8 @@ namespace AspCoreApp
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            migrations.Apply();
         }
     }
 }
