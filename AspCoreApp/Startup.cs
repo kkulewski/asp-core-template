@@ -27,6 +27,7 @@ namespace AspCoreApp
 
             // Register dependencies in DI container
             services.AddTransient<IAddressRepository, AddressRepository>();
+            services.AddTransient<IPersonRepository, PersonRepository>();
 
             // Add MVC stuff
             services.AddMvc();
