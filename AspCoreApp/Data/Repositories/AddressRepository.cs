@@ -42,8 +42,8 @@ namespace AspCoreApp.Data.Repositories
             if (address != null)
             {
                 _context.Addresses.Remove(address);
+                _context.SaveChanges();
             }
-            _context.SaveChanges();
         }
     }
 }
