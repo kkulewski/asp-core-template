@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AspCoreApp.Data.Repositories.Abstract;
 using AspCoreApp.Models;
 
@@ -7,7 +8,7 @@ namespace AspCoreApp.Data.Repositories
 {
     public class AddressRepository : IAddressRepository
     {
-        private AppDbContext _context;
+        private readonly AppDbContext _context;
 
         public AddressRepository(AppDbContext context)
         {
@@ -16,27 +17,34 @@ namespace AspCoreApp.Data.Repositories
 
         public IList<Address> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Addresses.ToList();
         }
 
-        public Address GetById(string id)
+        public Address GetById(string addressId)
         {
-            throw new NotImplementedException();
+            return _context.Addresses.FirstOrDefault(x => x.Id == addressId);
         }
 
         public void Add(Address address)
         {
-            throw new NotImplementedException();
+            _context.Addresses.Add(address);
+            _context.SaveChanges();
         }
 
         public void Update(Address address)
         {
-            throw new NotImplementedException();
+            _context.Addresses.Update(address);
+            _context.SaveChanges();
         }
 
-        public void Delete(string id)
+        public void Delete(string addressId)
         {
-            throw new NotImplementedException();
+            var address = _context.Addresses.FirstOrDefault(x => x.Id == addressId);
+            if (address != null)
+            {
+                _context.Addresses.Remove(address);
+            }
+            _context.SaveChanges();
         }
     }
 }
