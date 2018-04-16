@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using AspCoreApp.Data;
 using AspCoreApp.Data.Repositories.Abstract;
 using AspCoreApp.Models;
 

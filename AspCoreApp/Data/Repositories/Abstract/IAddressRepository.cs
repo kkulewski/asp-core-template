@@ -6,9 +6,9 @@ namespace AspCoreApp.Data.Repositories.Abstract
     public interface IAddressRepository
     {
         IList<Address> GetAll();
-        Address GetById(string id);
+        Address GetById(string addressId);
         void Add(Address address);
         void Update(Address address);
-        void Delete(string id);
+        void Delete(string addressId);
     }
 }
