@@ -43,7 +43,7 @@ namespace AspCoreApp.Controllers
         // GET: People/Create
         public IActionResult Create()
         {
-            ViewData["AddressId"] = new SelectList(_addressRepo.GetAll(), "Id", "Id");
+            ViewData["AddressId"] = new SelectList(_addressRepo.GetAll(), "Id", "FullAddress");
             return View();
         }
 
@@ -58,7 +58,7 @@ namespace AspCoreApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["AddressId"] = new SelectList(_personRepo.GetAll(), "Id", "Id", person.AddressId);
+            ViewData["AddressId"] = new SelectList(_personRepo.GetAll(), "Id", "FullAddress", person.AddressId);
             return View(person);
         }
 
@@ -76,7 +76,7 @@ namespace AspCoreApp.Controllers
                 return NotFound();
             }
 
-            ViewData["AddressId"] = new SelectList(_addressRepo.GetAll(), "Id", "Id", person.AddressId);
+            ViewData["AddressId"] = new SelectList(_addressRepo.GetAll(), "Id", "FullAddress", person.AddressId);
             return View(person);
         }
 
@@ -96,7 +96,7 @@ namespace AspCoreApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["AddressId"] = new SelectList(_addressRepo.GetAll(), "Id", "Id", person.AddressId);
+            ViewData["AddressId"] = new SelectList(_addressRepo.GetAll(), "Id", "FullAddress", person.AddressId);
             return View(person);
         }
 
