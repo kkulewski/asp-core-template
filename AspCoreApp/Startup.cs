@@ -26,7 +26,7 @@ namespace AspCoreApp
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             // Register dependencies in DI container
-            services.AddSingleton<MigrationService>();
+            services.AddScoped<MigrationService>();
             services.AddTransient<IAddressRepository, AddressRepository>();
             services.AddTransient<IPersonRepository, PersonRepository>();
 
