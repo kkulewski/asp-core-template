@@ -2,14 +2,14 @@
 using System.Threading.Tasks;
 using AspCoreApp.Models;
 
-namespace AspCoreApp.Data.Repositories.Abstract
+namespace AspCoreApp.Data.Repositories
 {
     public interface IPersonRepository
     {
         Task<IList<Person>> GetAll();
         Task<Person> GetById(string personId);
-        Task Add(Person person);
-        Task Update(Person person);
-        Task Delete(string personId);
+        void Add(Person person);
+        void Update(Person person);
+        void Delete(Person person);
     }
 }
