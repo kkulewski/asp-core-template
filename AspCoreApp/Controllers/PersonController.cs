@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using AspCoreApp.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using AspCoreApp.Data.Repositories.Abstract;
@@ -8,11 +9,13 @@ namespace AspCoreApp.Controllers
 {
     public class PersonController : Controller
     {
+        private readonly IUnitOfWork _uow;
         private readonly IPersonRepository _personRepo;
         private readonly IAddressRepository _addressRepo;
 
-        public PersonController(IPersonRepository personRepo, IAddressRepository addressRepo)
+        public PersonController(IUnitOfWork uow, IPersonRepository personRepo, IAddressRepository addressRepo)
         {
+            _uow = uow;
             _personRepo = personRepo;
             _addressRepo = addressRepo;
         }
@@ -53,14 +56,16 @@ namespace AspCoreApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,AddressId")] Person person)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                await _personRepo.Add(person);
-                return RedirectToAction(nameof(Index));
+
+                ViewData["AddressId"] = new SelectList(await _personRepo.GetAll(), "Id", "FullAddress", person.AddressId);
+                return View(person);
             }
 
-            ViewData["AddressId"] = new SelectList(await _personRepo.GetAll(), "Id", "FullAddress", person.AddressId);
-            return View(person);
+            _personRepo.Add(person);
+            await _uow.SaveChanges();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: People/Edit/5
@@ -91,14 +96,15 @@ namespace AspCoreApp.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                await _personRepo.Update(person);
-                return RedirectToAction(nameof(Index));
+                ViewData["AddressId"] = new SelectList(await _addressRepo.GetAll(), "Id", "FullAddress", person.AddressId);
+                return View(person);
             }
 
-            ViewData["AddressId"] = new SelectList(await _addressRepo.GetAll(), "Id", "FullAddress", person.AddressId);
-            return View(person);
+            _personRepo.Update(person);
+            await _uow.SaveChanges();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: People/Delete/5
@@ -123,7 +129,14 @@ namespace AspCoreApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            await _personRepo.Delete(id);
+            var person = await _personRepo.GetById(id);
+            if (person == null)
+            {
+                return NotFound();
+            }
+
+            _personRepo.Delete(person);
+            await _uow.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
     }

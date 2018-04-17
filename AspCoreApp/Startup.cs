@@ -1,6 +1,7 @@
 ﻿using AspCoreApp.Data;
 using AspCoreApp.Data.Repositories;
-using AspCoreApp.Data.Repositories.Abstract;
+using AspCoreApp.Data.Repositories.Entity;
+using AspCoreApp.Data.Repositories.EntityFramework;
 using AspCoreApp.Migrations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,8 +29,8 @@ namespace AspCoreApp
 
             // Register dependencies in DI container
             services.AddScoped<MigrationService>();
-            services.AddScoped<IAddressRepository, AddressRepository>();
-            services.AddScoped<IPersonRepository, PersonRepository>();
+            services.AddScoped<IAddressRepository, EntityAddressRepository>();
+            services.AddScoped<IPersonRepository, EntityPersonRepository>();
 
             // Add MVC stuff
             services.AddMvc();

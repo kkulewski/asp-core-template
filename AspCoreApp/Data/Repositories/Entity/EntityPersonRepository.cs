@@ -1,16 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using AspCoreApp.Data.Repositories.Abstract;
 using AspCoreApp.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace AspCoreApp.Data.Repositories
+namespace AspCoreApp.Data.Repositories.Entity
 {
-    public class PersonRepository : IPersonRepository
+    /// <summary>
+    /// Entity Framework implementation of person repository.
+    /// </summary>
+    public class EntityPersonRepository : IPersonRepository
     {
         private readonly AppDbContext _context;
 
-        public PersonRepository(AppDbContext context)
+        public EntityPersonRepository(AppDbContext context)
         {
             _context = context;
         }
@@ -29,26 +31,19 @@ namespace AspCoreApp.Data.Repositories
                 .FirstOrDefaultAsync(x => x.Id == personId);
         }
 
-        public async Task Add(Person person)
+        public void Add(Person person)
         {
             _context.People.Add(person);
-            await _context.SaveChangesAsync();
         }
 
-        public async Task Update(Person person)
+        public void Update(Person person)
         {
             _context.People.Update(person);
-            await _context.SaveChangesAsync();
         }
 
-        public async Task Delete(string personId)
+        public void Delete(Person person)
         {
-            var person = await _context.People.FindAsync(personId);
-            if (person != null)
-            {
-                _context.People.Remove(person);
-                await _context.SaveChangesAsync();
-            }
+            _context.People.Remove(person);
         }
     }
 }

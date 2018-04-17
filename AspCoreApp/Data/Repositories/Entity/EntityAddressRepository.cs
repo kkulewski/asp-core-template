@@ -1,16 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using AspCoreApp.Data.Repositories.Abstract;
 using AspCoreApp.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace AspCoreApp.Data.Repositories
+namespace AspCoreApp.Data.Repositories.EntityFramework
 {
-    public class AddressRepository : IAddressRepository
+    /// <summary>
+    /// Entity Framework implementation of address repository.
+    /// </summary>
+    public class EntityAddressRepository : IAddressRepository
     {
         private readonly AppDbContext _context;
 
-        public AddressRepository(AppDbContext context)
+        public EntityAddressRepository(AppDbContext context)
         {
             _context = context;
         }
@@ -25,26 +27,19 @@ namespace AspCoreApp.Data.Repositories
             return await _context.Addresses.FindAsync(addressId);
         }
 
-        public async Task Add(Address address)
+        public void Add(Address address)
         {
             _context.Addresses.Add(address);
-            await _context.SaveChangesAsync();
         }
 
-        public async Task Update(Address address)
+        public void Update(Address address)
         {
             _context.Addresses.Update(address);
-            await _context.SaveChangesAsync();
         }
 
-        public async Task Delete(string addressId)
+        public void Delete(Address address)
         {
-            var address = await _context.Addresses.FindAsync(addressId);
-            if (address != null)
-            {
-                _context.Addresses.Remove(address);
-                await _context.SaveChangesAsync();
-            }
+            _context.Addresses.Remove(address);
         }
     }
 }
