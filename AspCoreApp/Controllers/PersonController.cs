@@ -1,8 +1,7 @@
 ﻿using System.Threading.Tasks;
-using AspCoreApp.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using AspCoreApp.Data.Repositories.Abstract;
+using AspCoreApp.Data;
 using AspCoreApp.Models;
 
 namespace AspCoreApp.Controllers

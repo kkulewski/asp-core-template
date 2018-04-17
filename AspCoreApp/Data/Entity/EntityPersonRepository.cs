@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using AspCoreApp.Models;
 using Microsoft.EntityFrameworkCore;
+using AspCoreApp.Models;
 
-namespace AspCoreApp.Data.Repositories.Entity
+namespace AspCoreApp.Data.Entity
 {
     /// <summary>
     /// Entity Framework implementation of person repository.

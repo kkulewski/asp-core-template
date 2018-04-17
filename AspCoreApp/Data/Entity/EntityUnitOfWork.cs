@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace AspCoreApp.Data
+namespace AspCoreApp.Data.Entity
 {
     public class EntityUnitOfWork : IUnitOfWork
     {

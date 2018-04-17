@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using AspCoreApp.Models;
 
-namespace AspCoreApp.Data.Repositories
+namespace AspCoreApp.Data
 {
     public interface IAddressRepository
     {

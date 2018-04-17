@@ -1,7 +1,5 @@
 ﻿using AspCoreApp.Data;
-using AspCoreApp.Data.Repositories;
-using AspCoreApp.Data.Repositories.Entity;
-using AspCoreApp.Data.Repositories.EntityFramework;
+using AspCoreApp.Data.Entity;
 using AspCoreApp.Migrations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

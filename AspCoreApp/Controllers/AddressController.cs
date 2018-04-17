@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
-using AspCoreApp.Data;
 using Microsoft.AspNetCore.Mvc;
-using AspCoreApp.Data.Repositories.Abstract;
+using AspCoreApp.Data;
 using AspCoreApp.Models;
 
 namespace AspCoreApp.Controllers
@@ -9,13 +8,13 @@ namespace AspCoreApp.Controllers
     [Route("[controller]/[action]")]
     public class AddressController : Controller
     {
-        private readonly IAddressRepository _addressRepo;
         private readonly IUnitOfWork _uow;
+        private readonly IAddressRepository _addressRepo;
 
         public AddressController(IAddressRepository addressRepo, IUnitOfWork uow)
         {
-            _addressRepo = addressRepo;
             _uow = uow;
+            _addressRepo = addressRepo;
         }
 
         // GET: Address

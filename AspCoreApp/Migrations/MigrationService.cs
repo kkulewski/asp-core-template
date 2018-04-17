@@ -1,5 +1,5 @@
-﻿using AspCoreApp.Data;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using AspCoreApp.Data.Entity;
 
 namespace AspCoreApp.Migrations
 {

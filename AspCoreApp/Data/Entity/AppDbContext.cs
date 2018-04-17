@@ -1,7 +1,7 @@
-﻿using AspCoreApp.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using AspCoreApp.Models;
 
-namespace AspCoreApp.Data
+namespace AspCoreApp.Data.Entity
 {
     public class AppDbContext : DbContext
     {
