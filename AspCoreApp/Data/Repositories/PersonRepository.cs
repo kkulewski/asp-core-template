@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AspCoreApp.Data.Repositories.Abstract;
 using AspCoreApp.Models;
 using Microsoft.EntityFrameworkCore;
@@ -16,39 +17,39 @@ namespace AspCoreApp.Data.Repositories
             _context = context;
         }
 
-        public IList<Person> GetAll()
+        public async Task<IList<Person>> GetAll()
         {
-            return _context.People
+            return await _context.People
                 .Include(x => x.Address)
-                .ToList();
+                .ToListAsync();
         }
 
-        public Person GetById(string personId)
+        public async Task<Person> GetById(string personId)
         {
-            return _context.People
+            return await _context.People
                 .Include(x => x.Address)
-                .FirstOrDefault(x => x.Id == personId);
+                .FirstOrDefaultAsync(x => x.Id == personId);
         }
 
-        public void Add(Person person)
+        public async Task Add(Person person)
         {
             _context.People.Add(person);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Update(Person person)
+        public async Task Update(Person person)
         {
             _context.People.Update(person);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(string personId)
+        public async Task Delete(string personId)
         {
-            var person = _context.People.FirstOrDefault(x => x.Id == personId);
+            var person = await _context.People.FindAsync(personId);
             if (person != null)
             {
                 _context.People.Remove(person);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
     }
