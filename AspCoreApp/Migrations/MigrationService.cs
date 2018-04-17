@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AspCoreApp.Data;
+using Microsoft.EntityFrameworkCore;
 
-namespace AspCoreApp.Data
+namespace AspCoreApp.Migrations
 {
     public class MigrationService
     {

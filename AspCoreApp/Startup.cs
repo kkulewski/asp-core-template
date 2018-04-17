@@ -1,6 +1,7 @@
 ﻿using AspCoreApp.Data;
 using AspCoreApp.Data.Repositories;
 using AspCoreApp.Data.Repositories.Abstract;
+using AspCoreApp.Migrations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
