@@ -27,6 +27,7 @@ namespace AspCoreApp
 
             // Register dependencies in DI container
             services.AddScoped<MigrationService>();
+            services.AddScoped<IUnitOfWork, EntityUnitOfWork>();
             services.AddScoped<IAddressRepository, EntityAddressRepository>();
             services.AddScoped<IPersonRepository, EntityPersonRepository>();
 
