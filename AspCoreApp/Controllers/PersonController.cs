@@ -46,19 +46,19 @@ namespace AspCoreApp.Controllers
         // GET: People/Create
         public async Task<IActionResult> Create()
         {
-            ViewData["AddressId"] = new SelectList(await _addressRepo.GetAll(), "Id", "FullAddress");
+            ViewData["AddressList"] = new SelectList(await _addressRepo.GetAll(), "Id", "FullAddress");
             return View();
         }
 
         // POST: People/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,AddressId")] Person person)
+        public async Task<IActionResult> Create(Person person)
         {
             if (!ModelState.IsValid)
             {
 
-                ViewData["AddressId"] = new SelectList(await _personRepo.GetAll(), "Id", "FullAddress", person.AddressId);
+                ViewData["AddressList"] = new SelectList(await _personRepo.GetAll(), "Id", "FullAddress", person.AddressId);
                 return View(person);
             }
 
@@ -81,23 +81,18 @@ namespace AspCoreApp.Controllers
                 return NotFound();
             }
 
-            ViewData["AddressId"] = new SelectList(await _addressRepo.GetAll(), "Id", "FullAddress", person.AddressId);
+            ViewData["AddressList"] = new SelectList(await _addressRepo.GetAll(), "Id", "FullAddress", person.AddressId);
             return View(person);
         }
 
         // POST: People/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,FirstName,LastName,AddressId")] Person person)
+        public async Task<IActionResult> Edit(Person person)
         {
-            if (id != person.Id)
-            {
-                return NotFound();
-            }
-
             if (!ModelState.IsValid)
             {
-                ViewData["AddressId"] = new SelectList(await _addressRepo.GetAll(), "Id", "FullAddress", person.AddressId);
+                ViewData["AddressList"] = new SelectList(await _addressRepo.GetAll(), "Id", "FullAddress", person.AddressId);
                 return View(person);
             }
 

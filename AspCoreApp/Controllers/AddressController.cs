@@ -50,7 +50,7 @@ namespace AspCoreApp.Controllers
         // POST: Address/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Street,Number")] Address address)
+        public async Task<IActionResult> Create(Address address)
         {
             if (!ModelState.IsValid)
             {
@@ -82,13 +82,8 @@ namespace AspCoreApp.Controllers
         // POST: Address/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Street,Number")] Address address)
+        public async Task<IActionResult> Edit(Address address)
         {
-            if (id != address.Id)
-            {
-                return NotFound();
-            }
-
             if (!ModelState.IsValid)
             {
                 return View(address);
