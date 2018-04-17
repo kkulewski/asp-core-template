@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using AspCoreApp.Data.Repositories.Abstract;
 using AspCoreApp.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AspCoreApp.Data.Repositories
 {
@@ -14,35 +15,35 @@ namespace AspCoreApp.Data.Repositories
             _context = context;
         }
 
-        public IList<Address> GetAll()
+        public async Task<IList<Address>> GetAll()
         {
-            return _context.Addresses.ToList();
+            return await _context.Addresses.ToListAsync();
         }
 
-        public Address GetById(string addressId)
+        public async Task<Address> GetById(string addressId)
         {
-            return _context.Addresses.FirstOrDefault(x => x.Id == addressId);
+            return await _context.Addresses.FindAsync(addressId);
         }
 
-        public void Add(Address address)
+        public async Task Add(Address address)
         {
             _context.Addresses.Add(address);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Update(Address address)
+        public async Task Update(Address address)
         {
             _context.Addresses.Update(address);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(string addressId)
+        public async Task Delete(string addressId)
         {
-            var address = _context.Addresses.FirstOrDefault(x => x.Id == addressId);
+            var address = await _context.Addresses.FindAsync(addressId);
             if (address != null)
             {
                 _context.Addresses.Remove(address);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
     }

@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AspCoreApp.Models;
 
 namespace AspCoreApp.Data.Repositories.Abstract
 {
     public interface IAddressRepository
     {
-        IList<Address> GetAll();
-        Address GetById(string addressId);
-        void Add(Address address);
-        void Update(Address address);
-        void Delete(string addressId);
+        Task<IList<Address>> GetAll();
+        Task<Address> GetById(string addressId);
+        Task Add(Address address);
+        Task Update(Address address);
+        Task Delete(string addressId);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using AspCoreApp.Data.Repositories.Abstract;
 using AspCoreApp.Models;
 
@@ -15,21 +16,21 @@ namespace AspCoreApp.Controllers
         }
 
         // GET: Address
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var addresses = _addressRepo.GetAll();
+            var addresses = await _addressRepo.GetAll();
             return View(addresses);
         }
 
         // GET: Address/Details/5
-        public IActionResult Details(string id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var address = _addressRepo.GetById(id);
+            var address = await _addressRepo.GetById(id);
             if (address == null)
             {
                 return NotFound();
@@ -47,11 +48,11 @@ namespace AspCoreApp.Controllers
         // POST: Address/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Id,Street,Number")] Address address)
+        public async Task<IActionResult> Create([Bind("Id,Street,Number")] Address address)
         {
             if (ModelState.IsValid)
             {
-                _addressRepo.Add(address);
+                await _addressRepo.Add(address);
                 return RedirectToAction(nameof(Index));
             }
 
@@ -59,14 +60,14 @@ namespace AspCoreApp.Controllers
         }
 
         // GET: Address/Edit/5
-        public IActionResult Edit(string id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var address = _addressRepo.GetById(id);
+            var address = await _addressRepo.GetById(id);
             if (address == null)
             {
                 return NotFound();
@@ -78,7 +79,7 @@ namespace AspCoreApp.Controllers
         // POST: Address/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(string id, [Bind("Id,Street,Number")] Address address)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Street,Number")] Address address)
         {
             if (id != address.Id)
             {
@@ -87,7 +88,7 @@ namespace AspCoreApp.Controllers
 
             if (ModelState.IsValid)
             {
-                _addressRepo.Update(address);
+                await _addressRepo.Update(address);
                 return RedirectToAction(nameof(Index));
             }
 
@@ -95,14 +96,14 @@ namespace AspCoreApp.Controllers
         }
 
         // GET: Address/Delete/5
-        public IActionResult Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var address = _addressRepo.GetById(id);
+            var address = await _addressRepo.GetById(id);
             if (address == null)
             {
                 return NotFound();
@@ -114,9 +115,9 @@ namespace AspCoreApp.Controllers
         // POST: Address/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            _addressRepo.Delete(id);
+            await _addressRepo.Delete(id);
             return RedirectToAction(nameof(Index));
         }
     }
